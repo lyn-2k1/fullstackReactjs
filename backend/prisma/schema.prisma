@@ -1,0 +1,89 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  // previewFeatures = []
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  createdAt Int?
+  updatedAt Int?
+  email     String  @unique
+  name      String?
+  avatar    String?
+  password  String
+  firstname String?
+  lastname  String?
+
+  role         Role           @default(USER)
+  Notification Notification[]
+}
+
+// Loại ticket
+model TicketType {
+  id Int @id @default(autoincrement())
+}
+
+// Ticket
+model Ticket {
+  id        Int    @id @default(autoincrement())
+  createdAt Int
+  updatedAt Int
+  title     String
+  content   String
+}
+
+// Template ticket
+model Template {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  content   String
+}
+
+model Comment {
+  id        Int    @id @default(autoincrement())
+  createdAt Int
+  updatedAt Int
+  content   String
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  body      String
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model OcrType {
+  id   Int    @id @default(autoincrement())
+  type String
+  Ocr  Ocr[]
+}
+
+// Lưu dữ liệu OCR thô lấy từ API
+model Ocr {
+  id        Int     @id @default(autoincrement())
+  createdAt Int
+  updatedAt Int
+  content   String
+  type      OcrType @relation(fields: [ocrTypeId], references: [id])
+  ocrTypeId Int
+}

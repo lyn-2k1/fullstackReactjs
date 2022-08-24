@@ -1,0 +1,27 @@
+@import '~antd/es/style/themes/default.less';
+
+.scrollbar {
+  height: 600px;
+  margin-bottom: 25px;
+  margin-left: 30px;
+  overflow-y: auto;
+  // background: ;
+  &::-webkit-scrollbar {
+    width: 10px;
+    // background-color: @descriptions-bg;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 8px;
+    -webkit-box-shadow: inset 0 0 6px rgba(54, 53, 53, 0.233);
+  }
+}
+
+.force-overflow {
+  min-height: 450px;
+}
+
+.userCompleteItem {
+  flex:auto;
+  background-color: rgba(170, 173, 172, 0.897);
+}
